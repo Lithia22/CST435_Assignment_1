@@ -1,4 +1,4 @@
-# CPC357 Project
+# CST435 Project
 
 1. **Node Service (`service_node`)**  
    - A **JavaScript service running on Node.js**.  
