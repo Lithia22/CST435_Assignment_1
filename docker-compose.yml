@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  node_service:
+    build: ./service_node
+    container_name: cpc357_node_service
+    ports:
+      - "50054:50054"
+    volumes:
+      - ./proto:/proto
+
+  main:
+    build: ./main_controller
+    container_name: cpc357_main
+    depends_on:
+      - node_service
+    environment:
+      SERVICE_ADDR: "node_service:50054"
+    volumes:
+      - ./proto:/proto
