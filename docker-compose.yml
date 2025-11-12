@@ -2,7 +2,7 @@ version: "3.8"
 services:
   node_service:
     build: ./service_node
-    container_name: cpc357_node_service
+    container_name: cst435_node_service
     ports:
       - "50054:50054"
     volumes:
@@ -10,7 +10,7 @@ services:
 
   main:
     build: ./main_controller
-    container_name: cpc357_main
+    container_name: cst435_main
     depends_on:
       - node_service
     environment:
