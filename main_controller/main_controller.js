@@ -15,9 +15,9 @@ async function callHTTPService(serviceName, address, text) {
       body: JSON.stringify({ text: text }),
     });
     const data = await response.json();
-    return `✅ ${serviceName}: ${data.result}`;
+    return `[SUCCESS] ${serviceName}: ${data.result}`;
   } catch (error) {
-    return `❌ ${serviceName}: Failed - ${error.message}`;
+    return `[FAIL] ${serviceName}: Failed - ${error.message}`;
   }
 }
 
@@ -34,9 +34,9 @@ function callGRPCService(serviceName, address, text) {
 
     client.Process({ text }, { deadline: deadline.getTime() }, (err, resp) => {
       if (err) {
-        reject(`❌ ${serviceName} error: ${err.message}`);
+        reject(`[FAIL] ${serviceName} error: ${err.message}`);
       } else {
-        resolve(`✅ ${serviceName}: ${resp.result}`);
+        resolve(`[SUCCESS] ${serviceName}: ${resp.result}`);
       }
     });
   });
@@ -45,20 +45,26 @@ function callGRPCService(serviceName, address, text) {
 // Main distributed system function
 async function runDistributedSystem() {
   const text =
-    "Hello world! This text will be processed by all 5 distributed services running on different laptops.";
+    "Hello world! This text will be processed by all 5 distributed services running on different laptops. In this parallel computing assignment, we are using 5 devices. Right now it is sucessfully compilied";
 
   const services = {
     python: { address: "10.212.95.147:50051", type: "grpc" },
     php: { address: "10.212.94.105:50052", type: "http" },
     cpp: { address: "10.212.93.250:50053", type: "grpc" },
-    node: { address: "10.212.92.254:50054", type: "grpc" },
+    javascript: { address: "10.212.92.254:50054", type: "grpc" }, // Changed from "node"
     java: { address: "10.212.94.229:50055", type: "grpc" },
   };
 
-  console.log("🚀 Starting distributed service calls across 5 laptops...\n");
+  console.log("=".repeat(60));
+  console.log("STARTING DISTRIBUTED SERVICE CALLS");
+  console.log("Targeting 5 services across different machines");
+  console.log("=".repeat(60));
+  console.log("");
 
   const promises = Object.entries(services).map(([serviceName, config]) => {
-    console.log(`🔗 Calling ${serviceName} at ${config.address}...`);
+    console.log(
+      `Calling ${serviceName.toUpperCase()} service at ${config.address}`
+    );
     if (config.type === "http") {
       return callHTTPService(serviceName, config.address, text);
     } else {
@@ -68,14 +74,16 @@ async function runDistributedSystem() {
 
   const results = await Promise.allSettled(promises);
 
-  console.log("\n📊 FINAL RESULTS:");
-  console.log("================");
+  console.log("\n" + "=".repeat(60));
+  console.log("FINAL RESULTS");
+  console.log("=".repeat(60));
+
   results.forEach((result, index) => {
     const serviceName = Object.keys(services)[index];
     if (result.status === "fulfilled") {
       console.log(result.value);
     } else {
-      console.log(`❌ ${serviceName}: Failed - ${result.reason}`);
+      console.log(`[FAIL] ${serviceName}: Failed - ${result.reason}`);
     }
   });
 }
@@ -85,9 +93,9 @@ async function runPerformanceTest() {
   const testText =
     "Hello world! This is a performance test text for distributed systems analysis. We are testing the parallel processing capabilities across multiple machines and services running in different programming languages and environments.";
 
-  console.log("\n" + "=".repeat(50));
-  console.log("🚀 STARTING PERFORMANCE COMPARISON TEST");
-  console.log("=".repeat(50));
+  console.log("\n" + "=".repeat(60));
+  console.log("PERFORMANCE COMPARISON TEST");
+  console.log("=".repeat(60));
 
   // HTTP function with timing
   async function callHTTPServiceTimed(serviceName, address, text) {
@@ -148,7 +156,8 @@ async function runPerformanceTest() {
 
   // Simulate single machine (sequential processing)
   async function simulateSingleMachine(text, iterations = 5) {
-    console.log("🧪 Testing SINGLE MACHINE (Sequential)...");
+    console.log("\nSINGLE MACHINE TEST (Sequential Processing)");
+    console.log("-".repeat(50));
 
     const singleMachineTimes = [];
 
@@ -172,9 +181,9 @@ async function runPerformanceTest() {
             callGRPCServiceTimed("cpp", "10.212.93.250:50053", text),
         },
         {
-          name: "node",
+          name: "javascript",
           process: () =>
-            callGRPCServiceTimed("node", "10.212.92.254:50054", text),
+            callGRPCServiceTimed("javascript", "10.212.92.254:50054", text),
         },
         {
           name: "java",
@@ -200,14 +209,15 @@ async function runPerformanceTest() {
 
   // Test distributed system (parallel processing)
   async function testDistributedSystem(text, iterations = 5) {
-    console.log("🚀 Testing DISTRIBUTED SYSTEM (Parallel)...");
+    console.log("\nDISTRIBUTED SYSTEM TEST (Parallel Processing)");
+    console.log("-".repeat(50));
 
     const distributedTimes = [];
     const serviceBreakdown = {
       python: [],
       php: [],
       cpp: [],
-      node: [],
+      javascript: [],
       java: [],
     };
 
@@ -218,7 +228,7 @@ async function runPerformanceTest() {
         python: { address: "10.212.95.147:50051", type: "grpc" },
         php: { address: "10.212.94.105:50052", type: "http" },
         cpp: { address: "10.212.93.250:50053", type: "grpc" },
-        node: { address: "10.212.92.254:50054", type: "grpc" },
+        javascript: { address: "10.212.92.254:50054", type: "grpc" },
         java: { address: "10.212.94.229:50055", type: "grpc" },
       };
 
@@ -285,35 +295,44 @@ async function runPerformanceTest() {
   const distributedStats = calculateStats(distributedResults.distributedTimes);
 
   console.log("\n" + "=".repeat(60));
-  console.log("📊 PERFORMANCE COMPARISON REPORT");
+  console.log("PERFORMANCE COMPARISON REPORT");
   console.log("=".repeat(60));
 
-  console.log(`\n🏠 SINGLE MACHINE (Sequential):`);
-  console.log(`   Average Time: ${singleStats.avg.toFixed(2)}ms`);
-  console.log(`   Min Time: ${singleStats.min.toFixed(2)}ms`);
-  console.log(`   Max Time: ${singleStats.max.toFixed(2)}ms`);
-  console.log(`   Std Dev: ${singleStats.stdDev.toFixed(2)}ms`);
+  console.log("\nSINGLE MACHINE (Sequential Processing):");
+  console.log("  Average Time:".padEnd(25) + `${singleStats.avg.toFixed(2)}ms`);
+  console.log("  Minimum Time:".padEnd(25) + `${singleStats.min.toFixed(2)}ms`);
+  console.log("  Maximum Time:".padEnd(25) + `${singleStats.max.toFixed(2)}ms`);
+  console.log(
+    "  Standard Deviation:".padEnd(25) + `${singleStats.stdDev.toFixed(2)}ms`
+  );
 
-  console.log(`\n🌐 DISTRIBUTED SYSTEM (Parallel):`);
-  console.log(`   Average Time: ${distributedStats.avg.toFixed(2)}ms`);
-  console.log(`   Min Time: ${distributedStats.min.toFixed(2)}ms`);
-  console.log(`   Max Time: ${distributedStats.max.toFixed(2)}ms`);
-  console.log(`   Std Dev: ${distributedStats.stdDev.toFixed(2)}ms`);
+  console.log("\nDISTRIBUTED SYSTEM (Parallel Processing):");
+  console.log(
+    "  Average Time:".padEnd(25) + `${distributedStats.avg.toFixed(2)}ms`
+  );
+  console.log(
+    "  Minimum Time:".padEnd(25) + `${distributedStats.min.toFixed(2)}ms`
+  );
+  console.log(
+    "  Maximum Time:".padEnd(25) + `${distributedStats.max.toFixed(2)}ms`
+  );
+  console.log(
+    "  Standard Deviation:".padEnd(25) +
+      `${distributedStats.stdDev.toFixed(2)}ms`
+  );
 
-  console.log(`\n⚡ PERFORMANCE IMPROVEMENT:`);
+  console.log("\nPERFORMANCE IMPROVEMENT:");
   const improvement = (
     ((singleStats.avg - distributedStats.avg) / singleStats.avg) *
     100
   ).toFixed(2);
-  console.log(`   Speedup: ${improvement}% faster`);
+  console.log("  Speedup:".padEnd(25) + `${improvement}% faster`);
   console.log(
-    `   Parallelism Efficiency: ${(
-      (distributedStats.avg / singleStats.avg) *
-      100
-    ).toFixed(2)}%`
+    "  Parallelism Efficiency:".padEnd(25) +
+      `${((distributedStats.avg / singleStats.avg) * 100).toFixed(2)}%`
   );
 
-  console.log(`\n🔍 INDIVIDUAL SERVICE PERFORMANCE:`);
+  console.log("\nINDIVIDUAL SERVICE PERFORMANCE:");
   Object.entries(distributedResults.serviceBreakdown).forEach(
     ([service, data]) => {
       const latencies = data.map((d) => d.latency);
@@ -323,7 +342,7 @@ async function runPerformanceTest() {
         100
       ).toFixed(1);
       console.log(
-        `   ${service.toUpperCase()}: ${stats.avg.toFixed(
+        `  ${service.toUpperCase().padEnd(10)} ${stats.avg.toFixed(
           2
         )}ms avg (${successRate}% success)`
       );
@@ -333,16 +352,15 @@ async function runPerformanceTest() {
   // Calculate theoretical vs actual speedup
   const theoreticalSpeedup = 5; // Ideal for 5 parallel services
   const actualSpeedup = singleStats.avg / distributedStats.avg;
-  console.log(`\n📈 PARALLELISM ANALYSIS:`);
+  console.log("\nPARALLELISM ANALYSIS:");
   console.log(
-    `   Theoretical Speedup (ideal): ${theoreticalSpeedup.toFixed(2)}x`
+    "  Theoretical Speedup (ideal):".padEnd(35) +
+      `${theoreticalSpeedup.toFixed(2)}x`
   );
-  console.log(`   Actual Speedup: ${actualSpeedup.toFixed(2)}x`);
+  console.log("  Actual Speedup:".padEnd(35) + `${actualSpeedup.toFixed(2)}x`);
   console.log(
-    `   Parallel Efficiency: ${(
-      (actualSpeedup / theoreticalSpeedup) *
-      100
-    ).toFixed(1)}%`
+    "  Parallel Efficiency:".padEnd(35) +
+      `${((actualSpeedup / theoreticalSpeedup) * 100).toFixed(1)}%`
   );
 }
 
@@ -355,9 +373,11 @@ async function main() {
     // Run performance test
     await runPerformanceTest();
 
-    console.log("\n🎉 ALL TESTS COMPLETED SUCCESSFULLY!");
+    console.log("\n" + "=".repeat(60));
+    console.log("ALL TESTS COMPLETED SUCCESSFULLY");
+    console.log("=".repeat(60));
   } catch (error) {
-    console.error("❌ Error:", error);
+    console.error("Error:", error);
   }
 }
 
