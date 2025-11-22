@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+service KeywordService {
+  rpc Analyze(TextRequest) returns (KeywordResponse);
+}
+
+message TextRequest {
+  string text = 1;
+}
+
+message KeywordResponse {
+  repeated string keywords = 1;
+}
