@@ -51,7 +51,7 @@ async function runDistributedSystem() {
     python: { address: "10.212.95.147:50051", type: "grpc" },
     php: { address: "10.212.94.105:50052", type: "http" },
     cpp: { address: "10.212.93.250:50053", type: "grpc" },
-    javascript: { address: "10.212.92.254:50054", type: "grpc" }, // Changed from "node"
+    javascript: { address: "10.212.92.254:50054", type: "grpc" },
     java: { address: "10.212.94.229:50055", type: "grpc" },
   };
 
