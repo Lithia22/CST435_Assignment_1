@@ -45,7 +45,7 @@ Each service can run independently. Check individual READMEs in each service fol
 
 **Input:**
 ```bash
-"Hello! This is a Distributed & Parallel Text Processing System. This is CST435. Finally done."
+Hello! This is a Distributed & Parallel Text Processing System. This is CST435. Finally done.
 ```
 
 **Output:**
