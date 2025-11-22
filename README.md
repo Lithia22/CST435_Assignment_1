@@ -15,11 +15,12 @@ cd service_cpp
 ```bash
 # Build the Docker image
 docker build -t cpp-service .
-```
 
 # Run the container
 docker run -p 50053:50053 --name cpp-container cpp-service
+```
 
 ## API
+
 - **gRPC Endpoint**: `0.0.0.0:50053`
 - **Protocol**: gRPC
