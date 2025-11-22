@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  java_service:
+    build: .
+    container_name: java_summary_service
+    ports:
+      - "50055:50055"
+    networks:
+      - distributed_net
+
+networks:
+  distributed_net:
+    driver: bridge
