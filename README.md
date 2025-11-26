@@ -1,4 +1,4 @@
-# CST435 - Distributed & Parallel Text Processing System
+# CST435 - Distributed Parallel & Sequential Text Processing System
 
 ## Team Members
 
@@ -39,7 +39,7 @@ Each service can run independently. Check individual READMEs in each service fol
    - Node.js: Detects language and returns language code (eng, spa, fra, etc.)
    - Java: Creates a short summary
 4. **All results come back** and are displayed together
-5. **Performance is measured** - shows how much faster parallel processing is vs doing one-by-one
+5. **Performance is measured** - shows how much faster parallel processing is vs sequential
 
 ## Example
 
