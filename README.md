@@ -2,11 +2,11 @@
 
 ## Team Members
 
-- **Member 1**: Main Controller (Client) + Node.js Service (Language Detection)
-- **Member 2**: Python Service (Text Analysis)
-- **Member 3**: Java Service (Text Summarization)
-- **Member 4**: C++ Service (Keyword Extraction)
-- **Member 5**: PHP Service (Sentiment Analysis)
+- **Member 1**: Python Service (Text Analysis)
+- **Member 2**: PHP Service (Sentiment Analysis)
+- **Member 3**: C++ Service (Keyword Extraction)
+- **Member 4**: Main Controller (Client) + Node.js Service (Language Detection)
+- **Member 5**: Java Service (Text Summarization)
 
 ## Quick Start - Complete System
 
